@@ -2,6 +2,7 @@
 
 PYTHON      := python
 SPHINXBUILD := sphinx-build
+DATADIR     ?= dot_mnemosyne2
 
 # If `python3` exists:
 ifeq (1,$(shell python3 -c "print(1)" 2>&- ))
@@ -46,7 +47,7 @@ install-system: build-all-deps
 
 run: build
 	# For debugging: running the code in place.
-	PYTHONPATH=. $(PYTHON) mnemosyne/pyqt_ui/mnemosyne -d dot_mnemosyne2
+	PYTHONPATH=. $(PYTHON) mnemosyne/pyqt_ui/mnemosyne -d $(DATADIR)
 
 test-prep:
 	make -C po ../mo/de/LC_MESSAGES/mnemosyne.mo
