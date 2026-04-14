@@ -576,7 +576,7 @@ class BrowseCardsDlg(QtWidgets.QDialog, BrowseCardsDialog,
         tag_text = cards[0].tag_string()
         self.preview_dlg = \
             PreviewCardsDlg(cards, tag_text,
-                component_manager=self.component_manager, parent=self)
+                component_manager=self.component_manager)
         self.preview_dlg.page_up_down_signal.connect(\
             self.page_up_down_preview)
         self.preview_dlg.exec()

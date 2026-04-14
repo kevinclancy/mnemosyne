@@ -95,20 +95,26 @@ class PreviewCardsDlg(QtWidgets.QDialog, Component, QAOptimalSplit,
     def _store_state(self):
         self.config()["preview_cards_dlg_state"] = self.saveGeometry()
 
-    def closeEvent(self, event):
-        # Generated when clicking the window's close button.
+    def _cleanup(self):
         self.review_widget().stop_media()
         self._store_state()
-        event.accept()
-        QtWidgets.QDialog.reject(self)
+        # Shut down QWebEngineView pages before closing to prevent them
+        # from interfering with focus/activation of the parent window.
+        self.question.setHtml("")
+        self.answer.setHtml("")
+        self.question_preview.setHtml("")
+        self.answer_preview.setHtml("")
+
+    def closeEvent(self, event):
+        # Generated when clicking the window's close button.
+        self._cleanup()
+        QtWidgets.QDialog.closeEvent(self, event)
 
     def accept(self):
         # 'accept' does not generate a close event.
-        self.review_widget().stop_media()
-        self._store_state()
+        self._cleanup()
         return QtWidgets.QDialog.accept(self)
 
     def reject(self):
-        self.review_widget().stop_media()
-        self._store_state()
+        self._cleanup()
         QtWidgets.QDialog.reject(self)
